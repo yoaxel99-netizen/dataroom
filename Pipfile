@@ -8,6 +8,7 @@ django = "*"
 gunicorn = "*"
 django-environ = "*"
 django-cors-headers = "*"
+dj-database-url = "*"
 
 [dev-packages]
 
