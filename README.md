@@ -1,9 +1,9 @@
-Technology Stack
+## Technology Stack
 	1. Backend: Python, Django, PostgreSQL
 	2. Frontend: ReactJS
 	3. Security: oAuth
 
-GENERAL Questions
+### GENERAL Questions
 		- to be tackled along the way
 		- will have an answer written in the roadmap or tech stack or somewhere else (these will dissapear)
 
@@ -13,7 +13,7 @@ GENERAL Questions
 	File persistence:
 		- save directly to a folder on the server, outside the containers? -> needs mapping at docker-compose.yaml level and nginx/caddy level (webserver config file)
 
-Roadmap:
+## Roadmap:
 	1. Setup local dev env Python/Django project "dataroom" + PSQL DB (DONE)
 	2. Install and integrate the frontend layer with NextJS (DONE)
 		- install packages, then configure for local env use (DONE)
@@ -25,7 +25,7 @@ Roadmap:
 	6. DRF (django rest framework) to build REST API endpoints for NextJS frontend (80% DONE)
 	7. Create the frontend single page application with Google Drive File Picker (WIP)
 
-After everything works perfect on local env:
+### After everything works perfect on local env:
 	1. Test edge cases (direct URL GET, no authentication, expired oAuth token, tampered auth token from Postman)
 	2. Containerize the technologies (configure docker, dockerfile, docker-compose.yaml, caddyfile, makefile)
 	3. Deploy the solution to test the "live" app
@@ -33,13 +33,14 @@ After everything works perfect on local env:
 	5. Construct the README file with precise step-by-step actions to install/configure/use the product locally (preferrably 2 ways: just local technologies; containarized technologies)
 
 *********************************************************************************************************************************************************************
-CLIENT Goals
+
+# CLIENT Goals
 	1. Robustness, scalability and security
 	2. User experience and functionality
 	3. Code quality and readability
 
 
-CLIENT Functional requirements - CRUD operations
+## CLIENT Functional requirements - CRUD operations
 	File Management:
 		- Import files from Google Drive into dataroom
 		- View file list in UI
@@ -51,7 +52,7 @@ CLIENT Functional requirements - CRUD operations
 		- You can add search and filtering features that allows users to search for documents based on contents or file names.
 
 
-CLIENT Technical Requirements (translate this to domain model - business logic)
+## CLIENT Technical Requirements (translate this to domain model - business logic)
 	Frontend:
 		- Users go through a UI flow to authenticate with google drive
 		- Users can select files on the UI to import
@@ -63,9 +64,8 @@ CLIENT Technical Requirements (translate this to domain model - business logic)
 		- Store oauth tokens and persist files on server disk (no need to use blob etc)
 
 
-CLIENT Pointers / What to think of when designing the app:
+## CLIENT Pointers / What to think of when designing the app:
 	- Good data model design to support functional requirements
 	- Handle OAuth and token storage in backend
 	- Clean and intuitive UI/UX
 	- Edge cases, ex: using an expired oAuth token
-*********************************************************************************************************************************************************************
