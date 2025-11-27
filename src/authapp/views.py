@@ -22,9 +22,6 @@ def google_consent(request):
         },
         scopes=[
             "https://www.googleapis.com/auth/drive.readonly",
-            # "openid",
-            # "https://www.googleapis.com/auth/userinfo.email",
-            # "https://www.googleapis.com/auth/userinfo.profile",
         ],
     )
 
@@ -61,9 +58,6 @@ def google_callback(request):
         },
         scopes=[
             "https://www.googleapis.com/auth/drive.readonly",
-            # "openid",
-            # "https://www.googleapis.com/auth/userinfo.email",
-            # "https://www.googleapis.com/auth/userinfo.profile",
         ],
         state=state
     )
@@ -77,7 +71,7 @@ def google_callback(request):
 
     user = request.user
 
-    print(f"Credentials: {credentials}")
+    # print(f"Credentials: {credentials}")
 
     token_obj, _ = AuthToken.objects.update_or_create(
         user=user,

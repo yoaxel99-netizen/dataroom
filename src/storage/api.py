@@ -1,5 +1,4 @@
 import requests
-from django.contrib.sessions.backends import file
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
