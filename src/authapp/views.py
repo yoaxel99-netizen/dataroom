@@ -9,6 +9,7 @@ import pprint
 
 pp = pprint.PrettyPrinter(indent=4)
 
+@login_required
 def google_consent(request):
     flow = Flow.from_client_config(
         {
