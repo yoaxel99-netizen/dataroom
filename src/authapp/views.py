@@ -25,6 +25,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 # @login_required
 def google_consent(request):
     state = secrets.token_urlsafe(32)
+    request.session["oauth_state"] = state
     flow = Flow.from_client_config(
         {
             "web": {
@@ -51,8 +52,6 @@ def google_consent(request):
         prompt="consent",
         state=state,
     )
-
-    request.session["oauth_state"] = state
 
     return redirect(authorization_url)
 
