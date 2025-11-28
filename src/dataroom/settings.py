@@ -42,7 +42,6 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "https://dataroom-sandy.vercel.app",
-    "https://dataroom-6mry.onrender.com"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -57,14 +56,15 @@ CORS_ALLOW_HEADERS = [
     "X-CSRFToken",
 ]
 
-SESSION_COOKIE_SAMESITE = "None"
-SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = "None"
 CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_NAME = "csrftoken"
-
 CSRF_COOKIE_DOMAIN = "dataroom-6mry.onrender.com"
+
+SESSION_COOKIE_SAMESITE = "None"
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_DOMAIN = "dataroom-6mry.onrender.com"
 
 GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID")
