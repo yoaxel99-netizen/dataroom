@@ -36,6 +36,9 @@ def google_consent(request):
         },
         scopes=[
             "https://www.googleapis.com/auth/drive.readonly",
+            "openid",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile",
         ],
     )
 
@@ -72,6 +75,9 @@ def google_callback(request):
         },
         scopes=[
             "https://www.googleapis.com/auth/drive.readonly",
+            "openid",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/userinfo.profile",
         ],
         state=state
     )
