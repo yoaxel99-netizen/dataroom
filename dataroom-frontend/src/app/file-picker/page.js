@@ -20,6 +20,13 @@ export default function DrivePickerPage() {
     const [lastSelection, setLastSelection] = useState(null);
     const [pickerOpened, setPickerOpened] = useState(false);
 
+    useEffect(() => {
+        fetch(`${API_URL}/auth/get-csrf/`, {
+            method: "GET",
+            credentials: "include"
+        });
+    }, []);
+
     const openPicker = useCallback(() => {
         if (!pickerReady || !accessToken) return;
 

@@ -19,6 +19,13 @@ export default function Home() {
     const [error, setError] = useState(null);
     const router = useRouter();
 
+    useEffect(() => {
+        fetch(`${API_URL}/auth/get-csrf/`, {
+            method: "GET",
+            credentials: "include"
+        });
+    }, []);
+
     const connectGoogleDrive = useCallback(() => {
         window.location.href = `${API_URL}/auth/google/consent/`;
     }, []);
