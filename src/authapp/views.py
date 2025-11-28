@@ -22,7 +22,7 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
         return
 
 
-@login_required
+# @login_required
 def google_consent(request):
     flow = Flow.from_client_config(
         {
