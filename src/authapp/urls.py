@@ -8,5 +8,5 @@ urlpatterns = [
     path('google/callback/', google_callback, name='google_callback'),
     path('retrieve-access-token/', RetrieveAccessToken.as_view(), name='retrieve_access_token'),
     path('create/user', CreateUser.as_view(), name='create_user'),
-    path("auth/get-csrf/", get_csrf, name="get_csrf"),
+    path("get-csrf/", get_csrf, name="get_csrf"),
 ]
