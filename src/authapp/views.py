@@ -52,7 +52,7 @@ def google_consent(request):
     return redirect(authorization_url)
 
 
-@login_required
+# @login_required
 def google_callback(request):
     state = request.session.get("oauth_state")
     incoming_state = request.GET.get("state")
