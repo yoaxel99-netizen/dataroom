@@ -4,6 +4,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.core.files.base import ContentFile
+
+from authapp.views import CsrfExemptSessionAuthentication
 from .models import Storage
 from authapp.models import AuthToken
 
@@ -28,6 +30,7 @@ class StorageList(APIView):
 
 
 class StorageSave(APIView):
+    authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
@@ -61,6 +64,7 @@ class StorageSave(APIView):
 
 
 class StorageDelete(APIView):
+    authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
 
     def delete(self, request, uid, *args, **kwargs):

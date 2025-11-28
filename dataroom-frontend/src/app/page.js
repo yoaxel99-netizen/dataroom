@@ -1,37 +1,15 @@
 "use client";
 
 import {useEffect, useState, useCallback} from "react";
-import Script from "next/script";
 import {useRouter} from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-function getCSRFToken() {
-    return document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("csrftoken="))
-        ?.split("=")[1];
-}
-
-async function ensureCSRF() {
-    if (!getCSRFToken()) {
-        await fetch(`${API_URL}/auth/get-csrf/`, { credentials:"include" });
-    }
-}
 
 export default function Home() {
     const [files, setFiles] = useState([]);
     const [isLoadingFiles, setIsLoadingFiles] = useState(false);
     const [error, setError] = useState(null);
     const router = useRouter();
-
-    useEffect(() => {
-        fetch(`${API_URL}/auth/get-csrf/`, {
-            method: "GET",
-            credentials: "include"
-        })
-        .then(()=>console.log(document.cookie));
-    }, []);
 
     const connectGoogleDrive = useCallback(() => {
         window.location.href = `${API_URL}/auth/google/consent/`;
@@ -41,14 +19,11 @@ export default function Home() {
 
         if (!window.confirm("Are you sure you want to delete this file?")) return;
 
-        await ensureCSRF();
-
         await fetch(`${API_URL}/storage/delete/${uid}`, {
             method: "DELETE",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": getCSRFToken(),
             },
         })
             .then((res) => {

@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
-from django.middleware.csrf import get_token
+from rest_framework.authentication import SessionAuthentication
 from django.conf import settings
 from django.shortcuts import redirect
 from google_auth_oauthlib.flow import Flow
-from django.http import HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponseBadRequest
 from .models import AuthToken
 import environ
 import pprint
@@ -13,19 +13,9 @@ env = environ.Env()
 pp = pprint.PrettyPrinter(indent=4)
 
 
-def get_csrf(request):
-    token = get_token(request)
-
-    response = JsonResponse({"csrf": token})
-    response.set_cookie(
-        "csrftoken",
-        token,
-        domain="dataroom-6mry.onrender.com",
-        secure=True,
-        samesite="None",
-        httponly=False,
-    )
-    return response
+class CsrfExemptSessionAuthentication(SessionAuthentication):
+    def enforce_csrf(self, request):
+        return
 
 
 @login_required
