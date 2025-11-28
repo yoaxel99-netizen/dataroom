@@ -4,9 +4,11 @@ from django.shortcuts import redirect
 from google_auth_oauthlib.flow import Flow
 from django.http import HttpResponseBadRequest
 from .models import AuthToken
+import environ
 import pprint
 
 
+env = environ.Env()
 pp = pprint.PrettyPrinter(indent=4)
 
 @login_required
@@ -86,5 +88,5 @@ def google_callback(request):
     if "oauth_state" in request.session:
         del request.session["oauth_state"]
 
-    return redirect("http://localhost:3000")
+    return redirect(env("NEXTJS_URL"))
 

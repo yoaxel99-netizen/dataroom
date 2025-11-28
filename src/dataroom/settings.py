@@ -41,10 +41,12 @@ CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://dataroom-sandy.vercel.app"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:3000",
+    "https://dataroom-sandy.vercel.app"
 ]
 
 CORS_ALLOW_HEADERS = [
