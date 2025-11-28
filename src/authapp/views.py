@@ -1,10 +1,9 @@
-from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.conf import settings
 from django.shortcuts import redirect
 from google_auth_oauthlib.flow import Flow
-from django.http import HttpResponseBadRequest
+from django.http import HttpResponseBadRequest, JsonResponse
 from .models import AuthToken
 import environ
 import pprint
@@ -16,7 +15,7 @@ pp = pprint.PrettyPrinter(indent=4)
 
 @ensure_csrf_cookie
 def get_csrf(request):
-    return Response({"message": "CSRF Cookie Set"})
+    return JsonResponse({"message": "CSRF Cookie Set"})
 
 
 @login_required

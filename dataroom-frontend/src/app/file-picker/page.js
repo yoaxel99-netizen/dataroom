@@ -24,7 +24,8 @@ export default function DrivePickerPage() {
         fetch(`${API_URL}/auth/get-csrf/`, {
             method: "GET",
             credentials: "include"
-        });
+        })
+        .then(()=>console.log(document.cookie));
     }, []);
 
     const openPicker = useCallback(() => {
