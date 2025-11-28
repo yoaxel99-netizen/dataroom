@@ -80,7 +80,7 @@ def google_callback(request):
             "https://www.googleapis.com/auth/userinfo.email",
             "https://www.googleapis.com/auth/userinfo.profile",
         ],
-        state=state
+        state=request.GET.get("state")
     )
 
     flow.redirect_uri = settings.GOOGLE_REDIRECT_URI
