@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from "react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function TestPage() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/storage/test/", {
+    fetch(`${API_URL}/storage/test/`, {
         credentials: "include",
     })
       .then((res) => res.json())
