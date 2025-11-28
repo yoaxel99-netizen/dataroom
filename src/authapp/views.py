@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
 from django.conf import settings
 from django.shortcuts import redirect
 from google_auth_oauthlib.flow import Flow
@@ -13,9 +13,19 @@ env = environ.Env()
 pp = pprint.PrettyPrinter(indent=4)
 
 
-@ensure_csrf_cookie
 def get_csrf(request):
-    return JsonResponse({"message": "CSRF Cookie Set"})
+    token = get_token(request)
+
+    response = JsonResponse({"csrf": token})
+    response.set_cookie(
+        "csrftoken",
+        token,
+        domain="dataroom-6mry.onrender.com",
+        secure=True,
+        samesite="None",
+        httponly=False,
+    )
+    return response
 
 
 @login_required
