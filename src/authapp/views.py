@@ -1,3 +1,5 @@
+import environ
+import pprint
 from django.contrib.auth.decorators import login_required
 from rest_framework.authentication import SessionAuthentication
 from django.conf import settings
@@ -5,8 +7,10 @@ from django.shortcuts import redirect
 from google_auth_oauthlib.flow import Flow
 from django.http import HttpResponseBadRequest
 from .models import AuthToken
-import environ
-import pprint
+from google.oauth2 import id_token
+from google.auth.transport import requests as google_requests
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 
 env = environ.Env()
@@ -79,7 +83,14 @@ def google_callback(request):
 
     credentials = flow.credentials
 
-    user = request.user
+    # user = request.user
+    info = id_token.verify_oauth2_token(credentials.id_token, google_requests.Request(), settings.GOOGLE_CLIENT_ID)
+    google_email = info["email"]
+    user, created = User.objects.get_or_create(
+        username = google_email,
+        defaults = {"email": google_email}
+    )
+    login(request, user)
 
     # print(f"Credentials: {credentials}")
 
