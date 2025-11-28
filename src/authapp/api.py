@@ -14,7 +14,6 @@ class RetrieveAccessToken(APIView):
 
 
 class CreateUser(APIView):
-
     def post(self, request):
         password = request.data.get("password")
 
