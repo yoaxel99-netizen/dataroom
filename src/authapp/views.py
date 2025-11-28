@@ -1,6 +1,5 @@
 import environ
 import pprint
-import secrets
 from rest_framework.authentication import SessionAuthentication
 from django.conf import settings
 from django.shortcuts import redirect
@@ -24,8 +23,6 @@ class CsrfExemptSessionAuthentication(SessionAuthentication):
 
 # @login_required
 def google_consent(request):
-    state = secrets.token_urlsafe(32)
-    request.session["oauth_state"] = state
     flow = Flow.from_client_config(
         {
             "web": {
@@ -46,12 +43,13 @@ def google_consent(request):
 
     flow.redirect_uri = settings.GOOGLE_REDIRECT_URI
 
-    authorization_url, _ = flow.authorization_url(
+    authorization_url, state = flow.authorization_url(
         access_type="offline",
         include_granted_scopes="true",
         prompt="consent",
-        state=state,
     )
+
+    request.session["oauth_state"] = state
 
     return redirect(authorization_url)
 
@@ -80,7 +78,7 @@ def google_callback(request):
             "https://www.googleapis.com/auth/userinfo.email",
             "https://www.googleapis.com/auth/userinfo.profile",
         ],
-        state=request.GET.get("state")
+        state=state
     )
 
     flow.redirect_uri = settings.GOOGLE_REDIRECT_URI
