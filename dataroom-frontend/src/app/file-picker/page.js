@@ -1,6 +1,7 @@
 "use client";
 
 import {useEffect, useState, useCallback} from "react";
+import {useRouter} from "next/navigation";
 import Script from "next/script";
 
 const GOOGLE_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
@@ -12,6 +13,7 @@ export default function DrivePickerPage() {
     const [accessToken, setAccessToken] = useState(null);
     const [lastSelection, setLastSelection] = useState(null);
     const [pickerOpened, setPickerOpened] = useState(false);
+    const router = useRouter();
 
     const openPicker = useCallback(() => {
         if (!pickerReady || !accessToken) return;
@@ -42,6 +44,7 @@ export default function DrivePickerPage() {
                     })
                         .then(r => r.json())
                         .then(console.log)
+                        .then(router.push("/"))
                         .catch(console.error);
 
                     console.log("Picked file:", doc);
