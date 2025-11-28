@@ -13,6 +13,12 @@ function getCSRFToken() {
         ?.split("=")[1];
 }
 
+async function ensureCSRF() {
+    if (!getCSRFToken()) {
+        await fetch(`${API_URL}/auth/get-csrf/`, { credentials:"include" });
+    }
+}
+
 export default function DrivePickerPage() {
     const [gapiLoaded, setGapiLoaded] = useState(false);
     const [pickerReady, setPickerReady] = useState(false);
@@ -21,11 +27,7 @@ export default function DrivePickerPage() {
     const [pickerOpened, setPickerOpened] = useState(false);
 
     useEffect(() => {
-        fetch(`${API_URL}/auth/get-csrf/`, {
-            method: "GET",
-            credentials: "include"
-        })
-        .then(()=>console.log(document.cookie));
+        ensureCSRF().then(() => console.log("CSRF cookie ready:", document.cookie));
     }, []);
 
     const openPicker = useCallback(() => {
@@ -39,9 +41,11 @@ export default function DrivePickerPage() {
             .setDeveloperKey(GOOGLE_API_KEY)
             .setOAuthToken(accessToken)
             .addView(view)
-            .setCallback((data) => {
+            .setCallback(async (data) => {
                 if (data.action === window.google.picker.Action.PICKED) {
                     const doc = data.docs[0];
+
+                    await ensureCSRF();
 
                     fetch(`${API_URL}/storage/save/`, {
                         method: "POST",

@@ -13,6 +13,12 @@ function getCSRFToken() {
         ?.split("=")[1];
 }
 
+async function ensureCSRF() {
+    if (!getCSRFToken()) {
+        await fetch(`${API_URL}/auth/get-csrf/`, { credentials:"include" });
+    }
+}
+
 export default function Home() {
     const [files, setFiles] = useState([]);
     const [isLoadingFiles, setIsLoadingFiles] = useState(false);
@@ -31,17 +37,18 @@ export default function Home() {
         window.location.href = `${API_URL}/auth/google/consent/`;
     }, []);
 
-    const deleteFile = useCallback((uid) => {
+    async function deleteFile(uid) {
+
         if (!window.confirm("Are you sure you want to delete this file?")) return;
 
-        const csrf = getCSRFToken();
+        await ensureCSRF();
 
-        fetch(`${API_URL}/storage/delete/${uid}`, {
+        await fetch(`${API_URL}/storage/delete/${uid}`, {
             method: "DELETE",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "X-CSRFToken": csrf,
+                "X-CSRFToken": getCSRFToken(),
             },
         })
             .then((res) => {
@@ -57,7 +64,7 @@ export default function Home() {
                 console.error("Delete error:", err);
                 alert("Could not delete file.");
             });
-    }, []);
+    }
 
 
     useEffect(() => {
