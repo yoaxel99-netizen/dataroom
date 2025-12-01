@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-0)8w_a_#kckvjkru%3di^iv)j7)k&8v0ja3pepsmv6^0p&g4iu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "*"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "dataroom-sandy.vercel.app", "dataroom-6mry.onrender.com"]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -55,17 +55,6 @@ CORS_ALLOW_HEADERS = [
     "Content-Type",
     "X-CSRFToken",
 ]
-
-CSRF_COOKIE_SAMESITE = "None"
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_NAME = "csrftoken"
-CSRF_COOKIE_DOMAIN = ".onrender.com"
-
-SESSION_COOKIE_SAMESITE = "None"
-SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_DOMAIN = ".onrender.com"
 
 GOOGLE_CLIENT_ID = env("GOOGLE_CLIENT_ID")
 GOOGLE_CLIENT_SECRET = env("GOOGLE_CLIENT_SECRET")

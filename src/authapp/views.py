@@ -59,8 +59,11 @@ def google_callback(request):
     state = request.session.get("oauth_state")
     incoming_state = request.GET.get("state")
 
-    # if state != incoming_state:
-    #     return HttpResponseBadRequest("Invalid state parameter.")
+    pp.pprint(state)
+    pp.pprint(incoming_state)
+
+    if state != incoming_state:
+        return HttpResponseBadRequest("Invalid state parameter.")
 
     flow = Flow.from_client_config(
         {
@@ -78,7 +81,7 @@ def google_callback(request):
             "https://www.googleapis.com/auth/userinfo.email",
             "https://www.googleapis.com/auth/userinfo.profile",
         ],
-        state=incoming_state
+        state=state
     )
 
     flow.redirect_uri = settings.GOOGLE_REDIRECT_URI
