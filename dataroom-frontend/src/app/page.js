@@ -1,9 +1,17 @@
 "use client";
 
 import {useEffect, useState, useCallback} from "react";
+import Script from "next/script";
 import {useRouter} from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+function getCSRFToken() {
+    return document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("csrftoken="))
+        ?.split("=")[1];
+}
 
 export default function Home() {
     const [files, setFiles] = useState([]);
@@ -15,15 +23,17 @@ export default function Home() {
         window.location.href = `${API_URL}/auth/google/consent/`;
     }, []);
 
-    async function deleteFile(uid) {
-
+    const deleteFile = useCallback((uid) => {
         if (!window.confirm("Are you sure you want to delete this file?")) return;
 
-        await fetch(`${API_URL}/storage/delete/${uid}`, {
+        const csrf = getCSRFToken();
+
+        fetch(`${API_URL}/storage/delete/${uid}`, {
             method: "DELETE",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
+                "X-CSRFToken": csrf,
             },
         })
             .then((res) => {
@@ -39,7 +49,7 @@ export default function Home() {
                 console.error("Delete error:", err);
                 alert("Could not delete file.");
             });
-    }
+    }, []);
 
 
     useEffect(() => {
