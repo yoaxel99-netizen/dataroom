@@ -1,6 +1,5 @@
 import environ
 import pprint
-from rest_framework.authentication import SessionAuthentication
 from django.conf import settings
 from django.shortcuts import redirect
 from google_auth_oauthlib.flow import Flow
@@ -16,12 +15,6 @@ env = environ.Env()
 pp = pprint.PrettyPrinter(indent=4)
 
 
-class CsrfExemptSessionAuthentication(SessionAuthentication):
-    def enforce_csrf(self, request):
-        return
-
-
-# @login_required
 def google_consent(request):
     flow = Flow.from_client_config(
         {
@@ -54,7 +47,6 @@ def google_consent(request):
     return redirect(authorization_url)
 
 
-# @login_required
 def google_callback(request):
     state = request.session.get("oauth_state")
     incoming_state = request.GET.get("state")
@@ -91,7 +83,6 @@ def google_callback(request):
 
     credentials = flow.credentials
 
-    # user = request.user
     info = id_token.verify_oauth2_token(credentials.id_token, google_requests.Request(), settings.GOOGLE_CLIENT_ID)
     google_email = info["email"]
     user, created = User.objects.get_or_create(
@@ -99,8 +90,6 @@ def google_callback(request):
         defaults = {"email": google_email}
     )
     login(request, user)
-
-    # print(f"Credentials: {credentials}")
 
     token_obj, _ = AuthToken.objects.update_or_create(
         user=user,
